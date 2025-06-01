@@ -1,6 +1,21 @@
 from django.db import models
 
 # Create your models here.
+class User(models.Model):
+    STATUS_CHOICES = (
+        ('guest', 'Guest'),
+        ('host', 'Host'),
+        ('admin', 'Admin'),
+    )
+    user_id = models.URLField(primary_key=True, default=uuid.uuid4, editable=False)
+    first_name = models.CharField(null=False),
+    last_name = models.CharField(null=False),
+    email  = models.EmailField(unique=True, null=False),
+    password_hash = models.CharField(null=False),
+    phone_number = models.CharField(max_length=50),
+    role = models.CharField(choices=STATUS_CHOICES, null=False)
+    created_at = models.DateTimeField(default=timezone.now)
+
 class Booking(models.Model):
     STATUS_CHOICES = (
         ('pending', 'Pending'),
@@ -9,7 +24,7 @@ class Booking(models.Model):
     )
 
     booking_id = models.UUIDField(primary_key=True, default=uuid.uuid4, editable=False)
-    property = models.ForeignKey(Property, on_delete=models.CASCADE, related_name='bookings', db_column='property_id')
+    property = models.ForeignKey(Listing, on_delete=models.CASCADE, related_name='bookings', db_column='property_id')
     user = models.ForeignKey(User, on_delete=models.CASCADE, related_name='bookings', db_column='user_id')
     start_date = models.DateField(null=False)
     end_date = models.DateField(null=False)
@@ -41,8 +56,8 @@ class Listing(models.Model):
 
 class Review(models.Model):
     review_id = models.UUIDField(primary_key=True,default=uuid.uuid4,editable=False)
-    property_id = models.ForeignKey(Listing)
-    user_id = models.ForeignKey(User)
+    property_id = models.ForeignKey(Listing,on_delete=models.CASCADE)
+    user_id = models.ForeignKey(User,)
     rating = models.IntegerField()
     comment = models.CharField()
 
