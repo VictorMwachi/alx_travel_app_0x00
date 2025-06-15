@@ -12,13 +12,7 @@ class ListingSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Listing
-        fields = ['id', 'title', 'description', 'owner', 'address', 'city', 'country',
-                 'price_per_night', 'max_guests', 'bedrooms', 'bathrooms', 'created_at']
-        
-    def validate_price_per_night(self, value):
-        if value <= 0:
-            raise serializers.ValidationError("Price per night must be positive")
-        return value
+        fields = '__all__'
 
 class BookingSerializer(serializers.ModelSerializer):
     listing = ListingSerializer(read_only=True)
@@ -28,10 +22,4 @@ class BookingSerializer(serializers.ModelSerializer):
     
     class Meta:
         model = Booking
-        fields = ['id', 'listing', 'listing_id', 'guest', 'check_in', 'check_out', 
-                 'total_price', 'created_at']
-        
-    def validate(self, data):
-        if data['check_out'] <= data['check_in']:
-            raise serializers.ValidationError("Check-out date must be after check-in date")
-        return data
+        fields = '__all__'

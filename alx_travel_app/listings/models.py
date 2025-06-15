@@ -1,20 +1,20 @@
 from django.db import models
 
 # Create your models here.
-class User(models.Model):
-    STATUS_CHOICES = (
-        ('guest', 'Guest'),
-        ('host', 'Host'),
-        ('admin', 'Admin'),
-    )
-    user_id = models.URLField(primary_key=True, default=uuid.uuid4, editable=False)
-    first_name = models.CharField(null=False),
-    last_name = models.CharField(null=False),
-    email  = models.EmailField(unique=True, null=False),
-    password_hash = models.CharField(null=False),
-    phone_number = models.CharField(max_length=50),
-    role = models.CharField(choices=STATUS_CHOICES, null=False)
-    created_at = models.DateTimeField(default=timezone.now)
+# class User(models.Model):
+#     STATUS_CHOICES = (
+#         ('guest', 'Guest'),
+#         ('host', 'Host'),
+#         ('admin', 'Admin'),
+#     )
+#     user_id = models.URLField(primary_key=True, default=uuid.uuid4, editable=False)
+#     first_name = models.CharField(null=False),
+#     last_name = models.CharField(null=False),
+#     email  = models.EmailField(unique=True, null=False),
+#     password_hash = models.CharField(null=False),
+#     phone_number = models.CharField(max_length=50),
+#     role = models.CharField(choices=STATUS_CHOICES, null=False)
+#     created_at = models.DateTimeField(default=timezone.now)
 
 class Booking(models.Model):
     STATUS_CHOICES = (
